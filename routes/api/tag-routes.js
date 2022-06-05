@@ -57,12 +57,38 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
+// update tag
+// PUT `/api/tags/:id`
+// METHOD: PUT
+router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
+  try {
+    const tag = req.params.id;
+    const tagInfo = await Tag.update(req.body, { where: { id: tag } });
+    if (!tagInfo) {
+      res.status(400).json({ message: 'Error updating tag' });
+    }
+    res.json(tagInfo);
+  } catch (err) {
+    res.status(400).json({ message: 'Error updating tag' });
+  }
 });
 
-router.delete('/:id', (req, res) => {
+// delete tag
+// DELETE `/api/tags/:id`
+// METHOD: DELETE
+router.delete('/:id', async (req, res) => {
   // delete on tag by its `id` value
+  try {
+    const tag = req.params.id;
+    const tagInfo = await Tag.destroy({ where: { id: tag } });
+    if (!tagInfo) {
+      res.status(400).json({ message: 'Error deleting tag' });
+    }
+    res.json(tagInfo);
+  } catch (err) {
+    res.status(400).json({ message: 'Error deleting tag' });
+  }
 });
 
 module.exports = router;
