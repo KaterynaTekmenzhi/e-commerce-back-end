@@ -10,28 +10,20 @@ Product.belongsTo(Category, {
 });
 
 // Categories have many Products
-Category.hasMany(Product, {
-  foreignKey: 'category_id',
-  onDelete: 'cascade',
-});
+Category.hasMany(Product
+  // foreignKey: 'category_id',
+  // onDelete: 'cascade',
+);
 
 // Products belongToMany Tags (through ProductTag)
 Product.belongsToMany(Tag, {
-  through: {
-    model: ProductTag,
-    unique: false,
-  },
-  as: 'products_tag'
+  through: 'product_tag'
 });
 
 // Tags belongToMany Products (through ProductTag)
 Tag.belongsToMany(Product, {
-  through: {
-    model: ProductTag,
-    unique: false,
-  },
-  as: 'tag_product'
-})
+    through: 'product_tag'
+});
 
 module.exports = {
   Product,
