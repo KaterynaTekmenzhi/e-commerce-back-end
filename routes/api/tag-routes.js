@@ -40,8 +40,21 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', (req, res) => {
+// create new tag
+// POST `/api/tags`
+// METHOD: POST
+router.post('/', async (req, res) => {
   // create a new tag
+  try {
+    const tag = await Tag.create(req.body);
+
+    if (!tag) {
+      res.status(400).json({ message: 'Error creating tag' });
+    }
+    res.json(tag);
+  } catch (err) {
+    res.status(500).json({ message: 'Error creating tag' });
+  }
 });
 
 router.put('/:id', (req, res) => {

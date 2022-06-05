@@ -39,17 +39,16 @@ router.get('/:id', async (req, res) => {
 // POST `/api/categories`
 // This route should be used to create a new category
 // METHOD: POST
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   // create a new category
-  Category.create({
-    category_name: req.body.category_name
-  })
-    .then(category => {
-      res.status(201).json(category);
-    }) 
-    .catch(err => { 
-      res.status(500).json({ message: 'Error creating category' });
-    }); 
+  try {
+    const categoryData = await Category.create(req.body);
+
+    console.log(categoryData);
+    res.status(200).json(categoryData);
+  } catch (err) {
+    res.status(500).json({ message: 'Error creating category' });
+  }
 });
 
 // PUT `/api/categories/:id`
